@@ -1,0 +1,37 @@
+Configure WAN1 IP Address
+##################################################################
+config system interface
+    edit "wan1"
+        set vdom "root"
+        set ip 114.7.x.xx 255.255.255.252
+        set allowaccess ping https ssh http 
+        set type physical
+        set description "WAN1-ISP"
+        set alias "wan1-ISP"
+        set lldp-reception disable
+        set lldp-transmission disable
+        set role wan
+        set snmp-index 1
+    next
+end
+##################################################################
+
+
+Configure LAN (internal) IP Address
+##################################################################
+config system interface
+    edit "internal"
+        set vdom "root"
+        set ip 192.168.112.1 255.255.255.0
+        set allowaccess ping https ssh http
+        set type hard-switch
+        set description "lan1-mikrotik"
+        set alias "lan1-mikrotik"
+        set stp enable
+        set lldp-reception disable
+        set lldp-transmission disable
+        set role lan
+        set snmp-index 6
+    next
+end
+##################################################################
