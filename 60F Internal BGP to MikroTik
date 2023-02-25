@@ -1,0 +1,93 @@
+Configure Internal BGP to MikroTik
+
+Configure in Fortigate
+##################################################################
+    set as 1493xx                         #your AS Number
+    set router-id 114.5.181.xxx
+    config neighbor
+        edit "192.168.112.2"
+            set remote-as 1493xx
+        next
+    end
+    config network
+        edit 1
+            set prefix 103.180.xxx.0 255.255.255.0  #Advertise your IP Address Prefix
+        next
+    end
+##################################################################
+
+Configure in MikroTik
+##################################################################
+[admin@MikroTik] > routing bgp export 
+# feb/25/2023 16:54:33 by RouterOS 6.48.6
+# software id = xxxx-xxxx
+#
+# model = RB1100x4
+# serial number = XXXXXXXXX
+
+/routing bgp instance
+set default as=1493xx router-id=192.168.112.2
+/routing bgp network
+add disabled=yes network=10.130.112.0/22
+add disabled=yes network=10.10.100.0/30
+/routing bgp peer
+add name=Peer-FG60E remote-address=192.168.112.1 remote-as=1493xx
+##################################################################
+
+
+Show Peer Status Fortigate
+##################################################################
+Fortigate # get router info bgp neighbors 192.168.122.2
+BGP neighbor is 192.168.112.2, remote AS 1493xx, local AS 1493xx, internal link
+  BGP version 4, remote router ID 192.168.112.2
+  BGP state = Established, up for 00:02:38
+  Last read 00:00:11, hold time is 180, keepalive interval is 60 seconds
+  Configured hold time is 180, keepalive interval is 60 seconds
+  Neighbor capabilities:
+    Route refresh: advertised and received (new)
+    Address family IPv4 Unicast: advertised and received
+    Address family IPv6 Unicast: advertised
+  Received 1403 messages, 16 notifications, 0 in queue
+  Sent 1422 messages, 1 notifications, 0 in queue
+  Route refresh request: received 0, sent 0
+  Minimum time between advertisement runs is 30 seconds
+
+ For address family: IPv4 Unicast
+  BGP table version 16, neighbor version 15
+  Index 1, Offset 0, Mask 0x2
+  Community attribute sent to this neighbor (both)
+  0 accepted prefixes, 0 prefixes in rib
+  1 announced prefixes
+
+ For address family: IPv6 Unicast
+  BGP table version 1, neighbor version 1
+  Index 1, Offset 0, Mask 0x2
+  Community attribute sent to this neighbor (both)
+  0 accepted prefixes, 0 prefixes in rib
+  0 announced prefixes
+         
+ Connections established 5; dropped 4
+Local host: 192.168.112.1, Local port: 179
+Foreign host: 192.168.112.2, Foreign port: 59754
+Nexthop: 192.168.112.1
+Nexthop global: ::
+Nexthop local: ::
+BGP connection: non shared network
+Last Reset: 01w0d09h, due to BGP Notification sent
+Notification Error Message: (CeaseUnspecified Error Subcode)
+##################################################################
+
+
+Show Peer Status Fortigate
+##################################################################
+routing bgp peer print 
+Flags: X - disabled, E - established 
+ #   INSTANCE                 REMOTE-ADDRESS        REMOTE-AS  
+ 0 E default                  192.168.112.1         1493xx     
+[admin@MikroTik] > routing bgp peer print detail 
+Flags: X - disabled, E - established 
+ 0 E name="Peer-FG60E" instance=default remote-address=192.168.112.1 remote-as=1493xx 
+     tcp-md5-key="" nexthop-choice=default multihop=no route-reflect=no hold-time=3m ttl=255 
+     in-filter="" out-filter="" address-families=ip default-originate=never 
+     remove-private-as=no as-override=no passive=no use-bfd=no
+##################################################################
