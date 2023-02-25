@@ -1,15 +1,15 @@
 Configure Port Forward From Fortigate to Mikrotik Winbox
 
+
 Fortigate IP:Port	: 114.5.181.24x:8291
 Mikrotik Winbox:Port	: 192.168.112.2:8291	
 
 
-To configure Port Fortigate, you need 3 steps :
+To configure Port Fortigate, you need this steps :
 1. You need create Virtual IP, let you create external IP and port that forward to internal IP and Port
 2. Configure Service, this is a Port that's use and service, lets assume Winbox is TCP 8291
 3. Configure Forwarding Policy, set the Source interface and destination interface to configure port forward
-
-
+4. Please check is your port forward is Working
 
 Create Virtual IP
 ##################################################################
