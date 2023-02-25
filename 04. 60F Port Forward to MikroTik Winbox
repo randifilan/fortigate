@@ -1,0 +1,64 @@
+Configure Port Forward From Fortigate to Mikrotik Winbox
+
+Fortigate IP:Port	: 114.5.181.24x:8291
+Mikrotik Winbox:Port	: 192.168.112.2:8291	
+
+
+To configure Port Fortigate, you need 3 steps :
+1. You need create Virtual IP, let you create external IP and port that forward to internal IP and Port
+2. Configure Service, this is a Port that's use and service, lets assume Winbox is TCP 8291
+3. Configure Forwarding Policy, set the Source interface and destination interface to configure port forward
+
+
+
+Create Virtual IP
+##################################################################
+FORTIGATE # show firewall vip
+config firewall vip
+    edit "Winbox TCP8291"
+        set uuid 84d0a6e6-ae9d-51ed-8ea8-652edc9eba36
+        set comment "Winbox 8291"
+        set extip 114.5.181.24x
+        set extintf "any"
+        set portforward enable
+        set color 13
+        set mappedip "192.168.112.2"
+        set extport 8291
+        set mappedport 8291
+    next
+end      
+##################################################################
+
+
+
+Configure Service in Fortigate
+##################################################################
+FORTIGATE # show firewall service custom
+    edit "Winbox MikroTik"
+        set category "Remote Access"
+        set comment "Winbox MikroTik"
+        set tcp-portrange 8291
+    next
+end 
+##################################################################
+
+
+
+Configure the port forwarding policy.
+##################################################################
+FORTIGATE # show firewall policy 1
+config firewall policy
+    edit 1
+        set name "Winbox"
+        set uuid 562e91d8-aced-51ed-cddd-5c7b94c58dee
+        set srcintf "wan1" "INP"
+        set dstintf "internal"
+        set srcaddr "all"
+        set dstaddr "Winbox TCP8291"
+        set action accept
+        set schedule "always"
+        set service "Winbox MikroTik"
+        set nat enable
+    next
+end
+##################################################################
