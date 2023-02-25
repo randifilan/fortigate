@@ -1,0 +1,16 @@
+##################################################################
+config system interface
+    edit "wan1"
+        set vdom "root"
+        set ip 114.7.x.xx 255.255.255.252
+        set allowaccess ping https ssh http 
+        set type physical
+        set description "WAN1-ISP"
+        set alias "wan1-ISP"
+        set lldp-reception disable
+        set lldp-transmission disable
+        set role wan
+        set snmp-index 1
+    next
+end
+##################################################################
