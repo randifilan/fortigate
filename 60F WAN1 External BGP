@@ -1,0 +1,64 @@
+Configure External BGP
+##################################################################
+    set as 1493xx                         #your AS Number
+    set router-id 114.5.181.xxx
+    config neighbor
+        edit "114.5.181.xxx"
+            set remote-as 4761             #peer AS Number
+        next
+    end
+    config network
+        edit 1
+            set prefix 103.180.xxx.0 255.255.255.0  #Advertise your IP Address Prefix
+        next
+    end
+    config redistribute "connected"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "static"
+    end
+##################################################################
+
+Check BGP Neighbor Status
+##################################################################
+FORTIGATE # get router info bgp neighbors 114.5.181.xxx
+BGP neighbor is 114.5.xxx.xxx, remote AS 4761, local AS 1493xx, external link
+  BGP version 4, remote router ID 114.0.124.236
+  BGP state = Established, up for 4d01h12m          >>> BGP Establish
+  Last read 00:00:48, hold time is 180, keepalive interval is 60 seconds
+  Configured hold time is 180, keepalive interval is 60 seconds
+  Neighbor capabilities:
+    Route refresh: advertised and received (old and new)
+    Address family IPv4 Unicast: advertised and received
+    Address family IPv6 Unicast: advertised
+  Received 11535 messages, 0 notifications, 0 in queue
+  Sent 13178 messages, 4 notifications, 0 in queue
+  Route refresh request: received 0, sent 0
+  Minimum time between advertisement runs is 30 seconds
+
+ For address family: IPv4 Unicast
+  BGP table version 15, neighbor version 0
+  Index 2, Offset 0, Mask 0x4
+    Graceful restart: received
+  Community attribute sent to this neighbor (both)
+  1 accepted prefixes, 1 prefixes in rib
+  0 announced prefixes
+
+ For address family: IPv6 Unicast
+  BGP table version 1, neighbor version 0
+  Index 2, Offset 0, Mask 0x4
+  Community attribute sent to this neighbor (both)
+  0 accepted prefixes, 0 prefixes in rib
+  0 announced prefixes
+         
+ Connections established 5; dropped 4
+
+Nexthop: 114.5.181.246
+Nexthop global: ::
+Nexthop local: ::
+BGP connection: non shared network
+Last Reset: 4d01h15m, due to BGP Notification sent
+Notification Error Message: (Hold Timer Expired/Unspecified Error Subcode)
