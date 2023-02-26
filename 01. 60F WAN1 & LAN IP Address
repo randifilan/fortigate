@@ -2,7 +2,6 @@ Configure WAN1 IP Address
 ##################################################################
 config system interface
     edit "wan1"
-        set vdom "root"
         set ip 114.7.x.xx 255.255.255.252
         set allowaccess ping https ssh http 
         set type physical
