@@ -11,17 +11,15 @@ To configure Port Fortigate, you need this steps :
 3. Configure Forwarding Policy, set the Source interface and destination interface to configure port forward
 4. Please check is your port forward is Working
 
-Create Virtual IP
+1. Create Virtual IP
 ##################################################################
 FORTIGATE # show firewall vip
 config firewall vip
     edit "Winbox TCP8291"
-        set uuid 84d0a6e6-ae9d-51ed-8ea8-652edc9eba36
         set comment "Winbox 8291"
         set extip 114.5.181.24x
         set extintf "any"
         set portforward enable
-        set color 13
         set mappedip "192.168.112.2"
         set extport 8291
         set mappedport 8291
@@ -31,7 +29,7 @@ end
 
 
 
-Configure Service in Fortigate
+2. Configure Service in Fortigate
 ##################################################################
 FORTIGATE # show firewall service custom
     edit "Winbox MikroTik"
@@ -44,14 +42,13 @@ end
 
 
 
-Configure the port forwarding policy.
+3. Configure the port forwarding policy.
 ##################################################################
 FORTIGATE # show firewall policy 1
 config firewall policy
     edit 1
         set name "Winbox"
-        set uuid 562e91d8-aced-51ed-cddd-5c7b94c58dee
-        set srcintf "wan1" "INP"
+        set srcintf "wan1"
         set dstintf "internal"
         set srcaddr "all"
         set dstaddr "Winbox TCP8291"

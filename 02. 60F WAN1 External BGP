@@ -1,24 +1,16 @@
 Configure External BGP
 ##################################################################
-    set as 1493xx                         #your AS Number
+    set as 1493xx				#your AS Number
     set router-id 114.5.181.xxx
     config neighbor
         edit "114.5.181.xxx"
-            set remote-as 4761             #peer AS Number
+            set remote-as 4761			#peer AS Number
         next
     end
     config network
         edit 1
-            set prefix 103.180.xxx.0 255.255.255.0  #Advertise your IP Address Prefix
+            set prefix 103.180.xxx.0 255.255.255.0  #Advertise your Prefix
         next
-    end
-    config redistribute "connected"
-    end
-    config redistribute "rip"
-    end
-    config redistribute "ospf"
-    end
-    config redistribute "static"
     end
 ##################################################################
 
